@@ -1,0 +1,10 @@
+---
+- name: Create a Deployment by reading the definition from a local file
+  hosts: localhost
+  tasks:
+  - k8s:
+      state: present
+      src: ../deployment.yaml
+  - k8s:
+      state: present
+      src: ../service.yaml

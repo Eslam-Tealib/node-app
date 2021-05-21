@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+  namespace: default
+  labels:
+    app: jenkins
+    type: devops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+      type: devops
+  template:
+    metadata:
+      labels:
+        app: jenkins
+        type: devops
+    spec:
+      containers:
+      - name: jenkins
+        image: 2121994/jenkins-docker
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: jenkins-home
+          mountPath: /var/jenkins_home
+        - name: dockersock
+          mountPath: /var/run/docker.sock
+      volumes:
+        - name: dockersock
+          hostPath:
+            path: /var/run/docker.sock
+        - name: jenkins-home
+          emptyDir: {}
